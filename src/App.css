@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Graduate&family=Poppins&family=Rye&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  color: white !important;
+  background: #060619;
+  background: linear-gradient(to bottom left, #060619 15%, #0D0E38 52%, #2B0202 100%);
+  background-repeat: no-repeat !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.fontStyle{
+  background: rgba(10, 9, 29, 0.35) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(8.7px) !important;
+  -webkit-backdrop-filter: blur(8.7px) !important;
+}
+
+.fontStyle p {
+  font-family: 'Graduate', serif;
+}
+
+.fontStyle {
+  font-family: 'Graduate', serif;
+}
+
+.p-inputtext{
+  height: 3rem !important;
+  width: 100% !important;
+  padding: 1rem;
+}
+
+.test-input{
+  position: relative !important;
+}
+
+
+.p-icon{
+  position: absolute;
+  top: calc(50% - 8px) !important;
+  right: 1px;
+}
+
+.loginBG{
+  background: url("./assets/BGlogin.jpg");
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  background-position: center;
+}
+
+.BTNLogin{
+  height: 3rem;
+  width: 100%;
+  background-image: linear-gradient(to left top, #46112f, #3e1434, #341637, #291839, #1e1a39, #1a1c3d, #141d42, #091f46, #072253, #06255f, #08286c, #0f2a78);
+  color: white;
+}
+
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft{
+  background: transparent !important;
+  color: #fff !important;
+}
+
+
+.paperBG{
+  background: rgba(1, 0, 10, 0.35) !important;
+  /* border-radius: 16px !important; */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(8.7px) !important;
+  -webkit-backdrop-filter: blur(8.7px) !important;
+}
+
+
+.ballCSS{
+  display: flex;
+  /* padding: 40px !important; */
+  justify-content: space-between;
+  align-items: center !important;
+}
+
+.prev-result{
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.MuiInputBase-input.MuiOutlinedInput-input  {
+  color: #fff;
+}
+
+.MuiFormLabel-root.MuiInputLabel-root{
+  color: #fff !important;
+}
+
+.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium{
+  /* margin-right: 20px; */
+  color: white !important;
+}
+
+.MuiStack-root{
+  color: white !important;
+}
+
+.test1234{
+  color: white !important;
+}
+
+.MuiBox-root{
+  color: white !important;
+}
+
+/* .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-formControl.MuiInputBase-adornedEnd{
+  border: .5px solid white
+} */
+
+.MuiInputBase-colorPrimary{
+  border: 0px solid white;
+}
+
+
+.MuiInputBase-input.MuiFilledInput-input{
+  color: white !important;
+}
+
+.selected-ball-glow {
+  animation: pulse 1s infinite alternate;
+}
+
+.timer{
+  font-weight: bolder !important;
+}
+
+.timer-red {
+  color: red;
+}
+
+.MuiInputBase-input.MuiInput-input{
+  color: white !important;
+}
+
+.MuiInputBase-root{
+  color: white !important;
+}
+
+.active {
+  color: green;
+}
+
+.inactive {
+  color: red;
+}
