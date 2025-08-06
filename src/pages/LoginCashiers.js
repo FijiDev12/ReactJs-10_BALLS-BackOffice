@@ -6,7 +6,7 @@ import "primereact/resources/themes/md-dark-deeppurple/theme.css"
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import axios from 'axios';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from "sweetalert2"
 import { ProgressSpinner } from 'primereact/progressspinner';
 import CryptoJS from 'crypto-js';
@@ -19,7 +19,7 @@ function LoginCashiers() {
   const [PassHash, setPassHash] = useState('');
   const [IPAddress, setIPAddress ] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const globalApi = process.env.REACT_APP_LOCAL_URL
 
   const navigate = useNavigate()
 
@@ -36,7 +36,7 @@ function LoginCashiers() {
         return;
       }
   
-      api.post(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierlogin`, {
+      api.post(`${globalApi}/API/F10/inscashierlogin`, {
         username: Username,
         passhash: PassHash,
         ip_address: IPAddress
@@ -49,7 +49,7 @@ function LoginCashiers() {
           ).toString()
   
           if (res.data.data[0].session_token !== "") {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${res.data.data[0].session_token}`)
+            api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${res.data.data[0].session_token}`)
               .then((res) => {
                   console.log(res.data.data[0])
                 Swal.fire({

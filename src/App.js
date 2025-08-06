@@ -12,7 +12,7 @@ const TableOne = lazy(() => import("./pages/TableOne"))
 const TableOneHistory = lazy(() => import("./pages/TableOneHistory"))
 const GameHistoryForOP = lazy(() => import("./pages/GameHistoryForOP"))
 const UserListings = lazy(() => import("./pages/UserListings"))
-const TestSomething = lazy(() => import("./pages/TestSomething"))
+// const TestSomething = lazy(() => import("./pages/TestSomething"))
 const CashierManagement = lazy(() => import("./pages/CashierManagement"))
 const CashierList = lazy(() => import("./pages/CashierList"))
 const CashierListForOP = lazy(() => import("./pages/CashierListForOP"))
@@ -67,7 +67,7 @@ function App() {
             <Route path="/user/subAgentList" element={<SubAgentListing/>}/>
             <Route path="/sign-out" element={<Signout />} />
             <Route path="/log-out" element={<LogOut />} />
-            <Route path="/test" element={<TestSomething/>}/>
+            {/* <Route path="/test" element={<TestSomething/>}/> */}
           </Routes>
         </Router>
       </div>

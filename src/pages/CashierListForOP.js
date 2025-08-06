@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -143,7 +143,7 @@ function CashierListForOP() {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const handleOptionChange = (event, newValue) => {
         setValue(newValue);
       
@@ -158,7 +158,7 @@ function CashierListForOP() {
 
 
       const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -178,7 +178,7 @@ function CashierListForOP() {
     }
 
     useEffect (() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -198,7 +198,7 @@ function CashierListForOP() {
       }, [])
     
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selcashierlisting?operator_id=OpF10`)
+        api.get(`${globalApi}/API/F10/selcashierlisting?operator_id=OpF10`)
         .then((res) => {
             console.log(res.data)
             setAdmins(res.data.data)
@@ -269,7 +269,7 @@ function CashierListForOP() {
 
     const cashierRegistration = () => {
         setLoading(true);
-        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierregistration`, {
+        api.post(`${globalApi}/API/F10/inscashierregistration`, {
             first_name: FirstName,
             middle_name: MiddleName,
             last_name: LastName,
@@ -355,7 +355,7 @@ function CashierListForOP() {
         })
         .then((res) => {
             if (res.isConfirmed){
-                api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/cashieractivestatus?idx=${adminData.idx}`)
+                api.patch(`${globalApi}/API/F10/cashieractivestatus?idx=${adminData.idx}`)
                 .then((res) => {
                     if (res.data.data[0].responseCode === "0"){
                         Swal.fire({
@@ -388,7 +388,7 @@ function CashierListForOP() {
 
     const editCashierDetails = (e) => {
         e.preventDefault();
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/cashierupdprofiledetails`, {
+        api.patch(`${globalApi}/API/F10/cashierupdprofiledetails`, {
     
             idx : Idx,
             first_name : FirstNameToEdit,
@@ -472,7 +472,7 @@ function CashierListForOP() {
 
     const editCashierPassword = () => {
     if (newPassWord === confirmPassWord) {
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/cashierupdprofilepassword`, {
+        api.patch(`${globalApi}/API/F10/cashierupdprofilepassword`, {
         idx: Idx,
         passhash: newPassWord
         })

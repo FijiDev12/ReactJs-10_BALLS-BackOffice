@@ -6,7 +6,7 @@ import "primereact/resources/themes/md-dark-deeppurple/theme.css"
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import axios from 'axios';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from "sweetalert2"
 import { ProgressSpinner } from 'primereact/progressspinner';
 import CryptoJS from 'crypto-js';
@@ -21,7 +21,7 @@ function Login() {
   const [IPAddress, setIPAddress ] = useState('');
   const [loading, setLoading] = useState(false);
 
-
+  const globalApi = process.env.REACT_APP_LOCAL_URL
   const navigate = useNavigate()
 
   const adminLogin = (e) => {
@@ -37,7 +37,7 @@ function Login() {
         return;
       }
   
-      api.post(`${process.env.REACT_APP_F10_URL}/API/F10/adminLogin`, {
+      api.post(`${globalApi}/API/F10/adminLogin`, {
         Username: Username,
         PassHash: PassHash,
         IPAddress: IPAddress,
@@ -50,7 +50,7 @@ function Login() {
           ).toString()
   
           if (res.data.data[0].ResponseCode === "0") {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${res.data.data[0].ResponseMsg}`)
+            api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${res.data.data[0].ResponseMsg}`)
               .then((res) => {
 
                 Swal.fire({

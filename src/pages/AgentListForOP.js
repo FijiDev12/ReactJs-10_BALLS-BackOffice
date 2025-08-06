@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -157,7 +157,7 @@ function AgentListForOP() {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const handleOptionChange = (event, newValue) => {
         setValue(newValue);
       
@@ -172,7 +172,7 @@ function AgentListForOP() {
 
 
       const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -192,7 +192,7 @@ function AgentListForOP() {
     }
 
     useEffect (() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -212,7 +212,7 @@ function AgentListForOP() {
       }, [])
     
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selaffiliateslisting?operator_id=OpF10`)
+        api.get(`${globalApi}/API/F10/selaffiliateslisting?operator_id=OpF10`)
         .then((res) => {
             console.log(res.data)
             setAdmins(res.data.data)
@@ -294,7 +294,7 @@ function AgentListForOP() {
 
     const agentRegistration = () => {
         setLoading(true);
-        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insagentregistration`, {
+        api.post(`${globalApi}/API/F10/insagentregistration`, {
             FirstName: FirstName,
             MiddleName: MiddleName,
             LastName: LastName,
@@ -402,7 +402,7 @@ function AgentListForOP() {
         })
         .then((res) => {
             if (res.isConfirmed){
-                api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/agentactivestatus?Idx=${adminData.Idx}`)
+                api.patch(`${globalApi}/API/F10/agentactivestatus?Idx=${adminData.Idx}`)
                 .then((res) => {
                     if (res.data.data[0].responseCode === "0"){
                         Swal.fire({
@@ -435,7 +435,7 @@ function AgentListForOP() {
 
     const editAgentDetails = (e) => {
         e.preventDefault();
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/agentupdprofiledetails`, {
+        api.patch(`${globalApi}/API/F10/agentupdprofiledetails`, {
     
             Idx : Idx,
             FirstName : FirstNameToEdit,
@@ -519,7 +519,7 @@ function AgentListForOP() {
 
     const editAgentPassword = () => {
     if (newPassWord === confirmPassWord) {
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/agentupdprofilepassword`, {
+        api.patch(`${globalApi}/API/F10/agentupdprofilepassword`, {
             Idx: Idx,
             PassHash: newPassWord
         })

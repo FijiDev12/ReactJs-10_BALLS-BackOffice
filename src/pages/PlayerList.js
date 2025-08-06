@@ -14,7 +14,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import IconButton from '@mui/material/IconButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
@@ -118,7 +118,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }));
 
 function PlayerList() {
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const queryParameters = new URLSearchParams(window.location.search)
     const adminsession = queryParameters.get("d")
     const roleName = queryParameters.get("r")
@@ -176,7 +176,7 @@ function PlayerList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-      const response = await api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selaffiliateslisting?operator_id=OpF10`);
+      const response = await api.get(`${globalApi}/API/F10/selaffiliateslisting?operator_id=OpF10`);
       setAgents(response.data.data);
       } catch (error) {
       console.error('Error fetching agents:', error);
@@ -198,7 +198,7 @@ function PlayerList() {
   };
 
   const showPlayer = () => {
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selplayerbyaffialitecode?affiliate_code=${decryptData(sessionStorage.getItem("F10Data-$aff5544"))}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+    api.get(`${globalApi}/API/F10/selplayerbyaffialitecode?affiliate_code=${decryptData(sessionStorage.getItem("F10Data-$aff5544"))}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
     .then((res) => {
       console.log(res.data.data)
       setAdmins(res.data.data)
@@ -210,7 +210,7 @@ function PlayerList() {
 
 
     const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
                 console.log(res.data.data)
@@ -231,7 +231,7 @@ function PlayerList() {
     }
 
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -308,7 +308,7 @@ function PlayerList() {
 
     const playerEditDetails = (e) => {
         e.preventDefault();
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/updplayerprofiledetails`, {
+        api.patch(`${globalApi}/API/F10/updplayerprofiledetails`, {
     
             idx : Idx,
             first_name : FirstNameToEdit,
@@ -403,7 +403,7 @@ function PlayerList() {
 
     const playerChangePassword = () => {
     if (newPassWord === confirmPassWord) {
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/updplayerpassword`, {
+        api.patch(`${globalApi}/API/F10/updplayerpassword`, {
           mobile_no: mobileNumber,
           passhash_new: newPassWord,
           passhash_confirm: confirmPassWord

@@ -15,7 +15,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage'
 import moment from 'moment';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { decryptData } from '../Utils';
@@ -106,6 +106,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
 
   function TablePaginationActions(props) {
+
+    
+
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
   
@@ -124,7 +127,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     const handleLastPageButtonClick = (event) => {
       onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
-  
+    
     return (
       <Box sx={{ flexShrink: 0, ml: 2.5 }}>
         <IconButton
@@ -184,11 +187,11 @@ function TableOneHistory() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
 
-   
+    const globalApi = process.env.REACT_APP_LOCAL_URL
 
 
     const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -208,7 +211,7 @@ function TableOneHistory() {
     }
 
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -252,7 +255,7 @@ function TableOneHistory() {
 
     const showGameHistory = () => {
         setLoading(true)
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+        api.get(`${globalApi}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
         .then((res) => {
             setTest(res.data.data)
             console.log(res.data.data)

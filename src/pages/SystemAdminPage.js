@@ -11,7 +11,7 @@ import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { decryptData } from "../Utils"
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { Chart } from 'primereact/chart';
 import QRcode from '../components/QRcode';
@@ -86,12 +86,14 @@ function SystemAdminPage() {
     const [ avgPlayers, setAvgPlayers ] = useState("")
 
 
+    const globalApi = process.env.REACT_APP_LOCAL_URL
+
     const handleTogglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
 
     useEffect (() => {
-      api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionUsing}`)
+      api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionUsing}`)
       .then((res) => {
         if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
           Swal.fire({
@@ -125,7 +127,7 @@ function SystemAdminPage() {
 
 
     useEffect (() => {
-      api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getplayersdetailsbydaterange?GameIdx=1&DateFrom=${formattedTenDaysAgo}&DateTo=${formattedToday}`)
+      api.get(`${globalApi}/API/F10/getplayersdetailsbydaterange?GameIdx=1&DateFrom=${formattedTenDaysAgo}&DateTo=${formattedToday}`)
       .then((res) => {
         console.log(res.data.data)
         setAvgBet(res.data.data[0].TotalAverageBets)
@@ -153,7 +155,7 @@ function SystemAdminPage() {
     };
 
     useEffect(() => {
-      api.get(`${process.env.REACT_APP_F10_URL}/API/F10/playersjournalselsummarypergamesa?GameIdx=1&Counter=10`)
+      api.get(`${globalApi}/API/F10/playersjournalselsummarypergamesa?GameIdx=1&Counter=10`)
       .then((res) => {
         const extractedData = res.data.data
         const labels = extractedData.map((entries) => entries.RoundId.split('-')[0].toUpperCase())
@@ -225,7 +227,7 @@ function SystemAdminPage() {
 
    const operatorRegistration = () => {
     setLoading(true);
-    api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insoperator`, {
+    api.post(`${globalApi}/API/F10/insoperator`, {
         operator_name: operator_name,
         operator_location: operator_location,
         operator_contact_no: operator_contact_no,

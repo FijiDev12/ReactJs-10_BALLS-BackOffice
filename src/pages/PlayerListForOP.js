@@ -14,7 +14,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import IconButton from '@mui/material/IconButton';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
@@ -157,6 +157,9 @@ function PlayerListForOP() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+
+    const globalApi = process.env.REACT_APP_LOCAL_URL
+
     const handleOptionChange = (event, newValue) => {
         setValue(newValue);
       
@@ -175,7 +178,7 @@ function PlayerListForOP() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-      const response = await api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selaffiliateslisting?operator_id=OpF10`);
+      const response = await api.get(`${globalApi}/API/F10/selaffiliateslisting?operator_id=OpF10`);
       setAgents(response.data.data);
       } catch (error) {
       console.error('Error fetching agents:', error);
@@ -197,7 +200,7 @@ function PlayerListForOP() {
   };
 
   const showPlayer = () => {
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selplayerbyaffialitecode?affiliate_code=${decryptData(sessionStorage.getItem("F10Data-$aff5544"))}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+    api.get(`${globalApi}/API/F10/selplayerbyaffialitecode?affiliate_code=${decryptData(sessionStorage.getItem("F10Data-$aff5544"))}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
     .then((res) => {
       console.log(res.data.data)
       setAdmins(res.data.data)
@@ -209,7 +212,7 @@ function PlayerListForOP() {
 
 
   const checkUser = () => {
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+    api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
     .then((res) => {
       if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
         Swal.fire({
@@ -229,7 +232,7 @@ function PlayerListForOP() {
 }
 
 useEffect (() => {
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+    api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
     .then((res) => {
       if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
         Swal.fire({
@@ -306,7 +309,7 @@ useEffect (() => {
 
     const playerEditDetails = (e) => {
         e.preventDefault();
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/updplayerprofiledetails`, {
+        api.patch(`${globalApi}/API/F10/updplayerprofiledetails`, {
     
             idx : Idx,
             first_name : FirstNameToEdit,
@@ -401,7 +404,7 @@ useEffect (() => {
 
     const playerChangePassword = () => {
     if (newPassWord === confirmPassWord) {
-        api.patch(`${process.env.REACT_APP_F10_URL}/API/F10/updplayerpassword`, {
+        api.patch(`${globalApi}/API/F10/updplayerpassword`, {
           mobile_no: mobileNumber,
           passhash_new: newPassWord,
           passhash_confirm: confirmPassWord

@@ -15,7 +15,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage'
 import moment from 'moment';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { decryptData } from '../Utils';
@@ -176,9 +176,9 @@ function GameHistoryForOP() {
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionUsing}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionUsing}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -198,7 +198,7 @@ function GameHistoryForOP() {
     }
 
     useEffect (() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionUsing}`)
+        api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionUsing}`)
         .then((res) => {
           if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
             Swal.fire({
@@ -242,7 +242,7 @@ function GameHistoryForOP() {
 
     const showGameHistory = () => {
         setLoading(true)
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+        api.get(`${globalApi}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
         .then((res) => {
             setTest(res.data.data)
             console.log(res.data.data)

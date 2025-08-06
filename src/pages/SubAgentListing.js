@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import axios from "axios"
 import { decryptData } from "../Utils"
 import { useNavigate } from 'react-router-dom';
@@ -100,7 +100,7 @@ function SubAgentListing() {
 
 
     useEffect (() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getsubagentbyma?affiliate_code=${affCodeToUse}`)
+        api.get(`${globalApi}/API/F10/getsubagentbyma?affiliate_code=${affCodeToUse}`)
         .then((res) => {
             console.log(res.data.data)
             setSubAgentList(res.data.data)
@@ -117,9 +117,9 @@ function SubAgentListing() {
     );
 
 
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const subAgentRegistration = () => {
-        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insagentregistration`, {
+        api.post(`${globalApi}/API/F10/insagentregistration`, {
             FirstName: FirstName,
             MiddleName: MiddleName,
             LastName: LastName,

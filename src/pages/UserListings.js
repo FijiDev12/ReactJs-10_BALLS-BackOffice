@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -170,11 +170,13 @@ function UserListings() {
         } else if (newValue === 'Player List') {
             navigate(`/user/player?d=${encodeURIComponent(adminsession)}&r=${encodeURIComponent(roleName)}&u=${encodeURIComponent(username)}`);
         }
-      };
+    };
 
+
+    const globalApi = process.env.REACT_APP_LOCAL_URL
 
     const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
                 console.log(res.data.data)
@@ -195,7 +197,7 @@ function UserListings() {
     }
 
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -291,7 +293,7 @@ function UserListings() {
     }
 
     const showOperators = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/seloperatorlist?operator_id=OpF10`)
+        api.get(`${globalApi}/API/F10/seloperatorlist?operator_id=OpF10`)
         .then((res) => {
             console.log(res.data.data)
             setOperators(res.data.data)
@@ -302,7 +304,7 @@ function UserListings() {
 
     const createAdmin = () => {
         setLoading(true);
-        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/user_admin_registration`, {
+        api.post(`${globalApi}/API/F10/user_admin_registration`, {
             FirstName: FirstName,
             MiddleName: MiddleName,
             LastName: LastName,
@@ -380,7 +382,7 @@ function UserListings() {
 
     const editAdminUserDetails = (e) => {
         e.preventDefault();
-        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/adminupdatedetails`, {
+        api.post(`${globalApi}/API/F10/adminupdatedetails`, {
     
             Idx : Idx,
             FirstName : FirstNameToEdit,
@@ -466,7 +468,7 @@ function UserListings() {
       }
 
     const deleteAdminUser = () => {
-    api.delete(`${process.env.REACT_APP_F10_URL}/API/F10/adminuserdelete?Idx=${Idx}`)
+    api.delete(`${globalApi}/API/F10/adminuserdelete?Idx=${Idx}`)
     .then((res) => {
         closeDeleteModal()
         if ( res.data.data[0].ResponseCode === "0" ) {
@@ -501,7 +503,7 @@ function UserListings() {
 
 
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/all_User?RoleIdx=0`)
+        api.get(`${globalApi}/API/F10/all_User?RoleIdx=0`)
         .then((res) => {
             console.log(res.data)
             setAdmins(res.data.data)

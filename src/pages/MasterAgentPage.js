@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import axios from "axios"
 import { decryptData } from "../Utils"
 import { useNavigate } from 'react-router-dom';
@@ -91,7 +91,7 @@ function MasterAgentPage() {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+  const globalApi = process.env.REACT_APP_LOCAL_URL
   const getData = async()=>{
     const res = await axios.get('https://geolocation-db.com/json/')
     setip_address(res.data.IPv4)
@@ -111,7 +111,7 @@ function MasterAgentPage() {
   };
 
   const registerPlayer = () => {
-    api.post(`${process.env.REACT_APP_F10_URL}/API/F10/player_registration`, {
+    api.post(`${globalApi}/API/F10/player_registration`, {
       first_name: first_name,
       middle_name: middle_name,
       last_name: last_name,
@@ -218,7 +218,7 @@ function MasterAgentPage() {
 
   const showPlayers = () => {
     setLoading(true)
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selplayerbyaffialitecode?affiliate_code=${affCodeToUse}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+    api.get(`${globalApi}/API/F10/selplayerbyaffialitecode?affiliate_code=${affCodeToUse}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
     .then((res) => {
       console.log(res.data.data)
       setPlayers(res.data.data)

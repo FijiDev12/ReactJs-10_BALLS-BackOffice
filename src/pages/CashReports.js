@@ -10,7 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import moment from 'moment';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { decryptData } from '../Utils';
@@ -85,8 +85,11 @@ function CashReports() {
     const [dateTo, setDateTo] = useState(dayjs(dayjs(new Date())));
     const [loading, setLoading] = useState(false);
 
+
+    const globalApi = process.env.REACT_APP_LOCAL_URL
+
     const checkUser = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -106,7 +109,7 @@ function CashReports() {
     }
 
     useEffect(() => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+        api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
         .then((res) => {
             if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
             Swal.fire({
@@ -150,7 +153,7 @@ function CashReports() {
 
     const showCashReports = () => {
         setLoading(true)
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/cashierreporttransaction?operator_id=OpF10&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+        api.get(`${globalApi}/API/F10/cashierreporttransaction?operator_id=OpF10&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
         .then((res) => {
             setTest(res.data.data)
             console.log(res.data.data)

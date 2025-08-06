@@ -5,7 +5,7 @@ import Topbar from '../components/Topbar';
 import Sidebar from '../components/Sidebar';
 import { styled, useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -39,7 +39,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 );
 
 function CashierManagement() {
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const queryParameters = new URLSearchParams(window.location.search)
     const adminsession = queryParameters.get("d")
     const roleName = queryParameters.get("r")
@@ -96,7 +96,7 @@ function CashierManagement() {
 
     
     const checkUser = () => {
-      api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+      api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
       .then((res) => {
         if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
           Swal.fire({
@@ -116,7 +116,7 @@ function CashierManagement() {
   }
 
   useEffect (() => {
-      api.get(`${process.env.REACT_APP_F10_URL}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
+      api.get(`${globalApi}/API/F10/inscashierloginbysession?session_token=${sessionToBeUse}`)
       .then((res) => {
         if (res.data.data[0].username === "" || res.data.data[0].cashierId === ""){
           Swal.fire({
@@ -168,7 +168,7 @@ function CashierManagement() {
   console.log(cashinOrNot)
 
   const checkWalletBalace = () => {
-    api.get(`${process.env.REACT_APP_F10_URL}/API/F10/playerwalletbalance?mobile_no=${mobile_no}`)
+    api.get(`${globalApi}/API/F10/playerwalletbalance?mobile_no=${mobile_no}`)
     .then((res) => {
       const fullName = `${res.data.data[0].firstName} ${res.data.data[0].lastName}`
       setWalletBalance(res.data.data[0].walletBalance)
@@ -179,7 +179,7 @@ function CashierManagement() {
 
   const cashTransaction = () => {
 
-    api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insiscashincashtransc`, {
+    api.post(`${globalApi}/API/F10/insiscashincashtransc`, {
       cashier_id : decryptData(cashierID),
       operator_id: "OpF10",
       mobile_no: mobile_no,

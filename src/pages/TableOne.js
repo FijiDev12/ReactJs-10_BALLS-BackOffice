@@ -7,7 +7,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import racingFlag from "../assets/racingFlag.png"
 import imagedefault from "../assets/default.png"
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import moment from 'moment';
 import Ball1 from "../assets/ball_1.png"
 import Ball2 from "../assets/ball_2.png"
@@ -64,7 +64,7 @@ function TableOne() {
     const adminsession = queryParameters.get("d")
     const userToBeUsed = decryptData(username);
     const sessionToBeUse = decryptData(adminsession);
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const handleDrawerOpen = () => {
         setOpen(true);
       };
@@ -134,7 +134,7 @@ function TableOne() {
     const [ cancellationRoundId, setCancellationRoundId ] = useState("")
     const [clickedBalls, setClickedBalls] = useState([]);
 
-    var today = moment().format('Y-MM-DD');
+    var today = "2024-01-01";
     var tomorrow = moment().add(1, 'day').format('Y-MM-DD');
 
     const [From, setFrom] = useState(today)
@@ -145,6 +145,7 @@ function TableOne() {
     useEffect(() => {
         socket.emit("generate_get_games", { apiIdx2, From, To })
         socket.on("chamberone", (data) => {
+            console.log("data",data);
           if(data.data[0].RoundStatus === 0 || 1 || 2 || 10) {
             // checkUser()
           }
@@ -154,7 +155,7 @@ function TableOne() {
     /* ----- CHECK USERS HAVE SESSION ----- */
 
         useEffect(() => {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
+            api.get(`${globalApi}/API/F10/adminLoginSession?SessionID=${sessionToBeUse}`)
             .then((res) => {
                 if (res.data.data[0].RoleName === "" || res.data.data[0].Username === ""){
                 Swal.fire({
@@ -192,7 +193,7 @@ function TableOne() {
         }, [storedBallId]);
 
         useEffect(() => {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/get_game_rooms?GameIdx=1`)
+            api.get(`${globalApi}/API/F10/get_game_rooms?GameIdx=1`)
                 .then((res) => {
                 const ballSet = res.data.data[0].ballSet;
                 const ballSetInt = JSON.parse(ballSet.replace(/'/g, '"'));
@@ -560,7 +561,7 @@ function TableOne() {
         useEffect(() => {
             const dateFrom = dayjs().subtract(7, 'day').startOf('day').add(0, 'hours');
             const dateTo = dayjs(dayjs(new Date()));
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format("YYYY-MM-DD HH:mm:ss")}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+            api.get(`${globalApi}/API/F10/getallgamesjournal?GameIdx=1&DateFrom=${dateFrom.format("YYYY-MM-DD HH:mm:ss")}&DateTo=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
             .then((res) => {
                 setCancellationRoundId(res.data.data[0].RoundId)
             })
@@ -570,7 +571,7 @@ function TableOne() {
         }, [])
          
          const OpenRound = () => {
-            api.post(`${process.env.REACT_APP_F10_URL}/API/F10/inscreategames`, {
+            api.post(`${globalApi}/API/F10/inscreategames`, {
                 GameIdx : 1,
                 CreatedBy : userToBeUsed
             })
@@ -608,7 +609,7 @@ function TableOne() {
          }
 
         const CloseRound = () => {
-            api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insclosegames`, {
+            api.post(`${globalApi}/API/F10/insclosegames`, {
                 GameIdx : 1,
                 RoundId: decryptData(sessionStorage.getItem("F10_Data$GID3322")) || gameIdxtoUseInOneCycle || cancellationRoundId,
                 ClosedBy: userToBeUsed
@@ -635,7 +636,7 @@ function TableOne() {
         }
 
         const ballRacing = () => {
-            api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insdealinggames`, {
+            api.post(`${globalApi}/API/F10/insdealinggames`, {
                 GameIdx : 1,
                 RoundId : decryptData(sessionStorage.getItem("F10_Data$GID3322")) || gameIdxtoUseInOneCycle || cancellationRoundId,
                 DealtBy: userToBeUsed
@@ -677,7 +678,7 @@ function TableOne() {
                 sessionStorage.getItem("F10_tenth")
             ].map(decryptData).join(',');
         
-            api.post(`${process.env.REACT_APP_F10_URL}/API/F10/gamesjournaldrawtwo`, {
+            api.post(`${globalApi}/API/F10/gamesjournaldrawtwo`, {
                 GameIdx: 1,
                 RoundId : decryptData(sessionStorage.getItem("F10_Data$GID3322")) || gameIdxtoUseInOneCycle || cancellationRoundId,
                 RoundResult: roundResult,
@@ -711,7 +712,7 @@ function TableOne() {
                         setSwitch1(false);
                         setSwitch2(false);
                         setSwitch3(false);
-                        api.post(`${process.env.REACT_APP_F10_URL}/API/F10/inscancelgames`, {
+                        api.post(`${globalApi}/API/F10/inscancelgames`, {
                             GameIdx: 1,
                             RoundId: decryptData(sessionStorage.getItem("F10_Data$GID3322")) || gameIdxtoUseInOneCycle || cancellationRoundId,
                             CancelledBy: userToBeUsed,
@@ -750,7 +751,7 @@ function TableOne() {
     /* ----- PLAYERS WATCHING STARTS HERE ----- */
 
         const playerWatching = () => {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getselroundsviewer?GameIdx=1`)
+            api.get(`${globalApi}/API/F10/getselroundsviewer?GameIdx=1`)
             .then((res) => {
                 setPlayersWatching(res.data.data.length)
             })
@@ -761,7 +762,7 @@ function TableOne() {
     /* ----- PLAYERS TOTAL BETS, TOTAL PAY OUTS, PREVIOUS AND CURRENT STARTS HERE ----- */
 
         const playersJournalPerRound = (callback) => {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/playersjournalselsummarypergamesa?GameIdx=1&Counter=1`)
+            api.get(`${globalApi}/API/F10/playersjournalselsummarypergamesa?GameIdx=1&Counter=1`)
             .then((res) => {
                 callback(res.data.data[0]);
                 sessionStorage.setItem("F10_Data$$PO334", res.data.data[0].TotalWin)

@@ -6,7 +6,7 @@ import "primereact/resources/themes/md-dark-deeppurple/theme.css"
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import axios from 'axios';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import Swal from "sweetalert2"
 import { ProgressSpinner } from 'primereact/progressspinner';
 import CryptoJS from 'crypto-js';
@@ -20,7 +20,7 @@ function LoginAgents() {
   const [IPAddress, setIPAddress ] = useState('');
   const [loading, setLoading] = useState(false);
 
-
+  const globalApi = process.env.REACT_APP_LOCAL_URL
   const navigate = useNavigate()
 
   const adminLogin = (e) => {
@@ -36,7 +36,7 @@ function LoginAgents() {
         return;
       }
   
-      api.post(`${process.env.REACT_APP_F10_URL}/API/F10/insaffiliatelogin`, {
+      api.post(`${globalApi}/API/F10/insaffiliatelogin`, {
         encryptcode: Username,
         passhash: PassHash,
         ip_address: IPAddress
@@ -47,7 +47,7 @@ function LoginAgents() {
           ).toString()
   
           if (res.data.data[0].session_token !== "") {
-            api.get(`${process.env.REACT_APP_F10_URL}/API/F10/selaffiliateloginbysession?session_token=${res.data.data[0].session_token}`)
+            api.get(`${globalApi}/API/F10/selaffiliateloginbysession?session_token=${res.data.data[0].session_token}`)
               .then((res) => {
                   console.log(res.data.data[0])
                     Swal.fire({

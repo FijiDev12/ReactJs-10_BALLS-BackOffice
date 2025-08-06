@@ -10,7 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import dayjs from 'dayjs';
-import api from "../Api/F10"
+import api from "../Api/marble_ten"
 import axios from "axios"
 import { decryptData } from "../Utils"
 import { useNavigate } from 'react-router-dom';
@@ -87,9 +87,9 @@ function CommissionOfAgents() {
     const [totalSaComm, setTotalSaComm] = useState("")
     const [totalMaComm, setTotalMaComm] = useState("")
 
-
+    const globalApi = process.env.REACT_APP_LOCAL_URL
     const showComm = () => {
-        api.get(`${process.env.REACT_APP_F10_URL}/API/F10/getagentcommission?affiliate_code=${affCodeToUse}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
+        api.get(`${globalApi}/API/F10/getagentcommission?affiliate_code=${affCodeToUse}&date_from=${dateFrom.format('YYYY-MM-DD HH:mm:ss')}&date_to=${dateTo.format('YYYY-MM-DD HH:mm:ss')}`)
         .then((res) => {
             setShowCommission(res.data.data)
 
